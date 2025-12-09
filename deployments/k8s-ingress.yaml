@@ -8,7 +8,21 @@ spec:
     - host: go-analyzer.local
       http:
         paths:
-          - path: /
+          - path: /ingest
+            pathType: Prefix
+            backend:
+              service:
+                name: go-analyzer
+                port:
+                  number: 80
+          - path: /analyze
+            pathType: Prefix
+            backend:
+              service:
+                name: go-analyzer
+                port:
+                  number: 80
+          - path: /metrics
             pathType: Prefix
             backend:
               service:

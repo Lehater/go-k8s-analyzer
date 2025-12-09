@@ -1,0 +1,12 @@
+groups:
+  - name: go-analyzer-alerts
+    rules:
+      - alert: HighAnomalyRate
+        expr: increase(anomalies_total[1m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High anomaly rate detected in go-analyzer"
+          description: "More than 5 anomalies per minute observed."
+

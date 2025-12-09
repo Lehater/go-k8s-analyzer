@@ -6,6 +6,8 @@ import (
     "net/http"
     "time"
 
+    "net/http/pprof"
+
     "github.com/prometheus/client_golang/prometheus/promhttp"
 
     "github.com/example/go-k8s-analyzer/internal/analytics"
@@ -37,10 +39,18 @@ func New(cfg config.Config, log *logger.Logger) *Server {
     }
 
     mux := http.NewServeMux()
+    // main endpoints
     mux.Handle("/ingest", metricsMiddleware(http.HandlerFunc(s.handleIngest), "/ingest", http.MethodPost))
     mux.Handle("/analyze", metricsMiddleware(http.HandlerFunc(s.handleAnalyze), "/analyze", http.MethodGet))
     mux.Handle("/metrics", promhttp.Handler())
     mux.HandleFunc("/healthz", s.handleHealth)
+
+    // pprof endpoints for basic profiling
+    mux.HandleFunc("/debug/pprof/", pprof.Index)
+    mux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
+    mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
+    mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
+    mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
 
     s.httpServer = &http.Server{
         Addr:         cfg.HTTPAddr,
@@ -53,6 +63,11 @@ func New(cfg config.Config, log *logger.Logger) *Server {
     go s.runIngestLoop()
 
     return s
+}
+
+// Handler exposes the underlying HTTP handler, useful for tests.
+func (s *Server) Handler() http.Handler {
+    return s.httpServer.Handler
 }
 
 func (s *Server) runIngestLoop() {

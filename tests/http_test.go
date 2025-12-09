@@ -14,19 +14,7 @@ import (
     "github.com/example/go-k8s-analyzer/internal/model"
 )
 
-func newTestServer() *httptest.Server {
-    cfg := config.Load()
-    cfg.HTTPAddr = ":0"
-    cfg.RedisAddr = "localhost:6379"
-    logg := logger.New("debug")
-    srv := httpserver.New(cfg, logg)
-    return httptest.NewServer(srv.(*httpserver.Server).Handler())
-}
-
-// Simpler: just test handlers directly by constructing the mux is overkill;
-// instead, call handle functions in more focused unit tests.
-// For brevity, here basic integration with httptest.NewRecorder + handler.
-
+// Basic integration-style test for /ingest and /analyze handlers.
 func TestIngestAndAnalyze(t *testing.T) {
     cfg := config.Load()
     cfg.HTTPAddr = ":0"
@@ -34,8 +22,9 @@ func TestIngestAndAnalyze(t *testing.T) {
     logg := logger.New("debug")
     srv := httpserver.New(cfg, logg)
 
-    // test ingest
-    rec := httptest.NewRecorder()
+    handler := srv.Handler()
+
+    // send metric to /ingest
     metric := model.Metric{
         Timestamp: time.Now(),
         CPU:       10,
@@ -43,10 +32,22 @@ func TestIngestAndAnalyze(t *testing.T) {
     }
     body, _ := json.Marshal(metric)
     req := httptest.NewRequest(http.MethodPost, "/ingest", bytes.NewReader(body))
-
-    handler := http.HandlerFunc(srv.(*httpserver.Server).HandleIngestForTest) // if we exposed for tests
+    rec := httptest.NewRecorder()
     handler.ServeHTTP(rec, req)
+
     if rec.Code != http.StatusAccepted {
         t.Fatalf("expected 202, got %d", rec.Code)
+    }
+
+    // give some time for ingest loop to process
+    time.Sleep(10 * time.Millisecond)
+
+    // query /analyze
+    reqAnalyze := httptest.NewRequest(http.MethodGet, "/analyze", nil)
+    recAnalyze := httptest.NewRecorder()
+    handler.ServeHTTP(recAnalyze, reqAnalyze)
+
+    if recAnalyze.Code != http.StatusOK {
+        t.Fatalf("expected 200 from /analyze, got %d", recAnalyze.Code)
     }
 }

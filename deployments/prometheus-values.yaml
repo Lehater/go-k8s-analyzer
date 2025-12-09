@@ -1,0 +1,17 @@
+server:
+  service:
+    type: ClusterIP
+
+alertmanager:
+  enabled: true
+
+pushgateway:
+  enabled: false
+
+serverFiles:
+  prometheus.yml:
+    scrape_configs:
+      - job_name: "go-analyzer"
+        scrape_interval: 5s
+        static_configs:
+          - targets: ["go-analyzer.default.svc:80"]
