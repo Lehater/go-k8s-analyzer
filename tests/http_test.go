@@ -8,10 +8,10 @@ import (
     "testing"
     "time"
 
-    "github.com/example/go-k8s-analyzer/internal/config"
-    "github.com/example/go-k8s-analyzer/internal/httpserver"
-    "github.com/example/go-k8s-analyzer/internal/logger"
-    "github.com/example/go-k8s-analyzer/internal/model"
+    "github.com/lehater/go-k8s-analyzer/internal/config"
+    "github.com/lehater/go-k8s-analyzer/internal/httpserver"
+    "github.com/lehater/go-k8s-analyzer/internal/logger"
+    "github.com/lehater/go-k8s-analyzer/internal/model"
 )
 
 // Basic integration-style test for /ingest and /analyze handlers.

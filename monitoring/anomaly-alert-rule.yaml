@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: go-analyzer-anomaly-alerts
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: go-analyzer-anomaly-alerts
+      rules:
+        - alert: HighAnomalyRate
+          expr: rate(anomalies_total[1m]) > 5
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High anomaly rate in go-analyzer"
+            description: "More than 5 anomalies per second over the last minute."
+

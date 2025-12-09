@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/example/go-k8s-analyzer/internal/analytics"
-	"github.com/example/go-k8s-analyzer/internal/model"
+	"github.com/lehater/go-k8s-analyzer/internal/analytics"
+	"github.com/lehater/go-k8s-analyzer/internal/model"
 )
 
 // TestSyntheticScenario evaluates anomaly detection quality on controlled synthetic data.

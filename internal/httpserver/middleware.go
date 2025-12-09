@@ -4,7 +4,7 @@ import (
     "net/http"
     "time"
 
-    "github.com/example/go-k8s-analyzer/internal/metrics"
+    "github.com/lehater/go-k8s-analyzer/internal/metrics"
 )
 
 type statusRecorder struct {

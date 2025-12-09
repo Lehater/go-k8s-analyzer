@@ -3,8 +3,8 @@ package tests
 import (
     "testing"
 
-    "github.com/example/go-k8s-analyzer/internal/analytics"
-    "github.com/example/go-k8s-analyzer/internal/model"
+    "github.com/lehater/go-k8s-analyzer/internal/analytics"
+    "github.com/lehater/go-k8s-analyzer/internal/model"
 )
 
 func TestAnalyzerEmpty(t *testing.T) {

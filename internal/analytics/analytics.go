@@ -4,7 +4,7 @@ import (
     "math"
     "sync"
 
-    "github.com/example/go-k8s-analyzer/internal/model"
+    "github.com/lehater/go-k8s-analyzer/internal/model"
 )
 
 type Stats struct {

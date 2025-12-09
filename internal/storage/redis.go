@@ -7,7 +7,7 @@ import (
 
     "github.com/redis/go-redis/v9"
 
-    "github.com/example/go-k8s-analyzer/internal/model"
+    "github.com/lehater/go-k8s-analyzer/internal/model"
 )
 
 type RedisStorage struct {

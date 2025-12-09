@@ -10,12 +10,12 @@ import (
 
     "github.com/prometheus/client_golang/prometheus/promhttp"
 
-    "github.com/example/go-k8s-analyzer/internal/analytics"
-    "github.com/example/go-k8s-analyzer/internal/config"
-    "github.com/example/go-k8s-analyzer/internal/logger"
-    "github.com/example/go-k8s-analyzer/internal/metrics"
-    "github.com/example/go-k8s-analyzer/internal/model"
-    "github.com/example/go-k8s-analyzer/internal/storage"
+    "github.com/lehater/go-k8s-analyzer/internal/analytics"
+    "github.com/lehater/go-k8s-analyzer/internal/config"
+    "github.com/lehater/go-k8s-analyzer/internal/logger"
+    "github.com/lehater/go-k8s-analyzer/internal/metrics"
+    "github.com/lehater/go-k8s-analyzer/internal/model"
+    "github.com/lehater/go-k8s-analyzer/internal/storage"
 )
 
 type Server struct {
